@@ -1,0 +1,11 @@
+
+
+const Customers = () => {
+  return (
+    <div className="d-flex align-items-center justify-content-center text-white h-100">
+      Customers
+    </div>
+  );
+}
+
+export default Customers

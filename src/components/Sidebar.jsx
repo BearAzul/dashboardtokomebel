@@ -8,9 +8,9 @@ const BarMenu = [
     icon: "ri-dashboard-2-line",
   },
   {
-    title: "Users",
-    path: "/users",
-    icon: "ri-team-line",
+    title: "Admin",
+    path: "/admin",
+    icon: "ri-admin-line",
   },
   {
     title: "Categories",

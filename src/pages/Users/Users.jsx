@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Container, Table, Button, Modal, Form } from "react-bootstrap";
-import $ from "jquery"
+import {
+  Container,
+  Table,
+  Button,
+  Modal,
+  Form,
+  Row,
+  Col,
+} from "react-bootstrap";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -47,37 +54,51 @@ const Users = () => {
     fetchUsers();
   }, []);
 
-  useEffect(() => {
-    $("#tableUser").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["csv", "excel", "pdf", "print"]
-    });
-   }, [])
-
   return (
-    <Container className="p-3">
+    <Container>
       <div className="table-responsive overflow-x-auto">
         <div className="card text-bg-dark border border-secondary">
-          <div className="card-header d-flex justify-content-between">
-            <h3 className="card-title">Data User</h3>
-            <Button
-              variant="primary"
-              className="mb-3"
-              onClick={() =>
-                handleShow({
-                  id: "",
-                  role: "",
-                  name: "",
-                  email: "",
-                  password: "",
-                })
-              }
-            >
-              Add User
-            </Button>
+          <div className="card-header d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+            <Row xs="2" md="3" className="g-2 align-items-center w-100">
+              <Col lg="4">
+                <h3 className="card-title">Data User</h3>
+              </Col>
+              <Col lg="4" xs="12" className="order-last order-md-0">
+                <div className="d-flex">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm rounded-end-0"
+                    placeholder="Search Users..."
+                  />
+                  <Button
+                    variant="warning"
+                    className="input-group-text rounded-start-0"
+                    size="sm"
+                  >
+                    <i className="ri-search-line"></i>
+                  </Button>
+                </div>
+              </Col>
+              <Col lg="4" className="text-end">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() =>
+                    handleShow({
+                      id: "",
+                      role: "",
+                      name: "",
+                      email: "",
+                      password: "",
+                    })
+                  }
+                >
+                  Add User
+                </Button>
+              </Col>
+            </Row>
           </div>
-
-          <div className="card-body border-top border-secondary">
+          <div className="card-body border-top border-secondary table-responsive">
             <Table
               striped
               bordered

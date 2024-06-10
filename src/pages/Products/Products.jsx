@@ -1,11 +1,131 @@
-
+import { Container, Row, Col, Table, Button } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const Products = () => {
-  return (
-    <div className="d-flex align-items-center justify-content-center text-white h-100">
-      Products
-    </div>
-  );
-}
+  const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
-export default Products
+
+  const fetchProducts = async () => {
+    const response = await axios.get("http://localhost:5000/api/products");
+    setProducts(response.data);
+  };
+
+  const handleDelete = async (id) => {
+    await axios.delete(`http://localhost:5000/api/products/${id}`);
+    fetchProducts();
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+  return (
+    <Container>
+      <div className="table-responsive overflow-x-auto">
+        <div className="card text-bg-dark border border-secondary">
+          <div className="card-header d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+            <Row xs="2" md="3" className="g-2 align-items-center w-100">
+              <Col lg="4">
+                <h3 className="card-title">Data Products</h3>
+              </Col>
+              <Col lg="4" xs="12" className="order-last order-md-0">
+                <div className="d-flex">
+                  <input
+                    type="text"
+                    className="form-control form-control-sm rounded-end-0"
+                    placeholder="search products ..."
+                  />
+                  <Button
+                    variant="warning"
+                    className="input-group-text rounded-start-0"
+                    size="sm"
+                  >
+                    <i className="ri-search-line"></i>
+                  </Button>
+                </div>
+              </Col>
+              <Col lg="4" className="text-end">
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => navigate(`add`)}
+                >
+                  Add Product
+                </Button>
+              </Col>
+            </Row>
+          </div>
+          <div className="card-body border-top border-secondary table-responsive">
+            <Table
+              striped
+              bordered
+              hover
+              className="table-dark p-3 text-center"
+            >
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Image</th>
+                  <th>Product Name</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Category</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {products.map((product, index) => (
+                  <tr key={product.id}>
+                    <td>{index + 1}</td>
+                    <td>
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="img-thumbnail"
+                        width="100"
+                      />
+                    </td>
+                    <td>{product.name}</td>
+                    <td>{product.price}</td>
+                    <td>{product.stock}</td>
+                    <td>{product.category_id}</td>
+                    <td className="d-flex gap-2 justify-content-center">
+                      <Button
+                        variant="info"
+                        // onClick={() => handleShow(product)}
+                      >
+                        Detail
+                      </Button>
+
+                      <Button
+                        variant="warning"
+                        onClick={() =>
+                          navigate(`edit/${product.id}`, {
+                            state: { product },
+                          })
+                        }
+                      >
+                        Edit
+                      </Button>
+
+                      <Button
+                        variant="danger"
+                        onClick={() => handleDelete(product.id)}
+                      >
+                        Delete
+                      </Button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </div>
+        </div>
+      </div>
+    </Container>
+  );
+};
+
+export default Products;

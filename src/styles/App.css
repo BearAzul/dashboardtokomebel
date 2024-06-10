@@ -1,5 +1,8 @@
 body {
   font-family: "Poppins", sans-serif !important;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 
@@ -49,11 +52,14 @@ body {
 
 /* End Sidebar */
 
-.main-container {
+
+/* Main */
+main {
   grid-area: main;
   overflow-y: auto;
   color: rgba(255, 255, 255, 0.95);
 }
+/* End Main */
 
 .card-inner>.card_icon {
   font-size: 25px;
@@ -69,8 +75,10 @@ body {
 
 }
 
-
 @media screen and (max-width: 576px) {
+  main{
+    max-width: 100vw;
+  }
   .header-left {
     display: none;
   }

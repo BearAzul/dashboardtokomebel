@@ -1,5 +1,30 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import "../styles/App.css"
 const Dashboard = () => {
+  const [productLength, setProductLength] = useState(0);
+  const [customerLength, setCustomerLength] = useState(0);
+  const [orderLength, setOrderLength] = useState(0);
+  const [categoryLength, setCategoryLength] = useState(0);
+
+  const fetchCount = async () => {
+    try {
+      const resProduct = await axios.get("http://localhost:5000/api/products");
+      const resCategory = await axios.get("http://localhost:5000/api/category");
+      const resCustomer = await axios.get("http://localhost:5000/api/customers");
+      const resOrder = await axios.get("http://localhost:5000/api/orders");
+      setProductLength(resProduct.data.length);
+      setCategoryLength(resCategory.data.length);
+      setCustomerLength(resCustomer.data.length);
+      setOrderLength(resOrder.data.length);
+    } catch (error) {
+      console.error("Error fetching count", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchCount();
+  }, []);
   return (
     <div className="container">
       <div className="main-title d-flex justify-content-between">
@@ -12,7 +37,7 @@ const Dashboard = () => {
               <h3>PRODUCTS</h3>
               <i className="ri-box-3-line card_icon"></i>
             </div>
-            <h1 className="p-3">300</h1>
+            <h1 className="p-3">{ productLength }</h1>
           </div>
         </div>
         <div className="col">
@@ -21,7 +46,9 @@ const Dashboard = () => {
               <h3>CATEGORIES</h3>
               <i className="ri-folders-line card_icon"></i>
             </div>
-            <h1 className="p-3">10</h1>
+            <h1 className="p-3">
+              { categoryLength }
+            </h1>
           </div>
         </div>
         <div className="col">
@@ -30,7 +57,9 @@ const Dashboard = () => {
               <h3>CUSTOMERS</h3>
               <i className="ri-group-3-line card_icon"></i>
             </div>
-            <h1 className="p-3">20</h1>
+            <h1 className="p-3">
+              { customerLength }
+            </h1>
           </div>
         </div>
         <div className="col">
@@ -39,16 +68,9 @@ const Dashboard = () => {
               <h3>ORDERS</h3>
               <i className="ri-shopping-cart-2-line card_icon"></i>
             </div>
-            <h1 className="p-3">20</h1>
-          </div>
-        </div>
-        <div className="col">
-          <div className="card bg-info text-white">
-            <div className="card-inner d-flex justify-content-between align-items-center p-3">
-              <h3>ALERT</h3>
-              <i className="ri-notification-3-line card_icon"></i>
-            </div>
-            <h1 className="p-3">20</h1>
+            <h1 className="p-3">
+              { orderLength }
+            </h1>
           </div>
         </div>
       </div>
